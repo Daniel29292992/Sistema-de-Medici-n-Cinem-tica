@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis Cinemático - Movimiento Parabólico | UNCP</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --accent-color: #00f2fe;
+      --text-color: #c9d1d9;
+      --border-color: #30363d;
+      --highlight: #4fd1c5;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: linear-gradient(135deg, #1f242d, #0d1117);
+      border-bottom: 2px solid var(--accent-color);
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+    .institution {
+      font-size: 0.9rem;
+      color: var(--highlight);
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 1.8rem;
+      margin: 10px 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    h2 {
+      color: var(--accent-color);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 6px;
+      font-size: 1.3rem;
+    }
+    /* Estilos para la Calculadora Interactiva */
+    .calculator-box {
+      background-color: #0d1117;
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    .input-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--highlight);
+      font-size: 0.95rem;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      background-color: #161b22;
+      border: 1px solid var(--border-color);
+      color: white;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: var(--accent-color);
+      color: #0d1117;
+      border: none;
+      padding: 10px 15px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 5px;
+    }
+    button:hover {
+      background-color: var(--highlight);
+    }
+    .results {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #1a2332;
+      border-left: 4px solid var(--highlight);
+      border-radius: 4px;
+    }
+    /* Cuadrícula de fotos */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .gallery-item {
+      background-color: #0d1117;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+      background-color: #21262d;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: #000;
+      margin-top: 10px;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.85rem;
+      color: #8b949e;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header>
+      <div class="institution">Universidad Nacional del Centro del Perú - FIQ</div>
+      <h1>Análisis Cinemático del Movimiento Parabólico</h1>
+      <p style="margin: 5px 0 0 0; font-style: italic; color: #8b949e;">Verificación experimental con Catapulta y Cañón</p>
+    </header>
+
+    <!-- CALCULADORA INTERACTIVA -->
+    <section>
+      <h2>🧮 Simulador y Calculadora Cinemática</h2>
+      <p>Ingresa los datos experimentales obtenidos de tus lanzamientos para calcular automáticamente los resultados teóricos:</p>
+      
+      <div class="calculator-box">
+        <div class="input-group">
+          <label for="v0">Velocidad Inicial ($v_0$ en m/s):</label>
+          <input type="number" id="v0" placeholder="Ej. 4.5" step="any">
+        </div>
+        <div class="input-group">
+          <label for="angulo">Ángulo de Lanzamiento ($\theta$ en grados):</label>
+          <input type="number" id="angulo" placeholder="Ej. 45" step="any">
+        </div>
+        <button onclick="calcularFisica()">Calcular Resultados</button>
+
+        <div class="results" id="resultadoBox" style="display: none;">
+          <strong>Resultados del Lanzamiento:</strong>
+          <p id="resAltura">Altura Máxima ($h_{max}$): -</p>
+          <p id="resAlcance">Alcance Horizontal ($A$): -</p>
+          <p id="resTiempo">Tiempo de Vuelo ($t_v$): -</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERÍA DE FOTOS Y EVIDENCIAS -->
+    <section>
+      <h2>📸 Galería de Evidencias (Fotos de Maquetas)</h2>
+      <p>Sube tus imágenes al repositorio (en una carpeta llamada <code>images</code>) o reemplaza los enlaces para mostrar tus fotos aquí:</p>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="images/catapulta.jpg" alt="Catapulta Casera" onerror="this.src='https://via.placeholder.com/250x160?text=Foto+Catapulta'">
+          <p style="margin: 8px 0 0 0; font-size: 0.9rem; color: var(--highlight);">Catapulta de Madera</p>
+        </div>
+        <div class="gallery-item">
+          <img src="images/canon.jpg" alt="Cañón Casero" onerror="this.src='https://via.placeholder.com/250x160?text=Foto+Canon'">
+          <p style="margin: 8px 0 0 0; font-size: 0.9rem; color: var(--highlight);">Cañón de Jeringa</p>
+        </div>
+        <div class="gallery-item">
+          <img src="images/circuito.jpg" alt="Circuito Arduino" onerror="this.src='https://via.placeholder.com/250x160?text=Circuito+Arduino'">
+          <p style="margin: 8px 0 0 0; font-size: 0.9rem; color: var(--highlight);">Sistema Arduino</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section>
+      <h2>🎥 Demostración Experimental (Video)</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/TU_ID_DE_VIDEO" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- INTEGRANTES -->
+    <section>
+      <h2>👥 Equipo de Trabajo (UNCP)</h2>
+      <ul style="margin: 0; padding-left: 20px;">
+        <li>Mayta Aliaga Daniel Xavier</li>
+        <li>Galvez Muños Luciana Maximina</li>
+        <li>Lopez Espiritu Mayck Samuel</li>
+        <li>Tinoco Ruiz Luis Giovani</li>
+        <li>Valdez Carmona Britany Juliet</li>
+        <li>Yaranga Rojas Yenifer</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>Facultad de Ingeniería Química - UNCP © 2026</p>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT DE LA CALCULADORA -->
+  <script>
+    function calcularFisica() {
+      let v0 = parseFloat(document.getElementById('v0').value);
+      let anguloDeg = parseFloat(document.getElementById('angulo').value);
+      let g = 9.81;
+
+      if (isNaN(v0) || isNaN(anguloDeg)) {
+        alert("Por favor ingresa valores válidos.");
+        return;
+      }
+
+      let rad = anguloDeg * (Math.PI / 180);
+
+      // Fórmulas físicas del informe UNCP
+      let v0x = v0 * Math.cos(rad);
+      let v0y = v0 * Math.sin(rad);
+
+      let hMax = (Math.pow(v0y, 2)) / (2 * g);
+      let tVuelo = (2 * v0y) / g;
+      let alcance = (Math.pow(v0, 2) * Math.sin(2 * rad)) / g;
+
+      // Mostrar resultados
+      document.getElementById('resAltura').innerHTML = "Altura Máxima ($h_{max}$): <strong>" + hMax.toFixed(3) + " m</strong>";
+      document.getElementById('resAlcance').innerHTML = "Alcance Horizontal ($A$): <strong>" + alcance.toFixed(3) + " m</strong>";
+      document.getElementById('resTiempo').innerHTML = "Tiempo de Vuelo ($t_v$): <strong>" + tVuelo.toFixed(3) + " s</strong>";
+      
+      document.getElementById('resultadoBox').style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
